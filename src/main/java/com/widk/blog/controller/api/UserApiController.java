@@ -25,7 +25,7 @@ public class UserApiController {
 		System.out.println("UserApiController : save 호출됨!");
 		// 실제로 DB에 insert를 하고 아래에서 return이 되면 성공.
 		userService.회원가입(user);
-		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1); 
+		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1); 	// 자바오브젝트를 JSON으로 변환해서 리턴(Jackson)
 	}
 	
 	
