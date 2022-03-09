@@ -9,14 +9,24 @@
 			<label for="username">Username</label> 
 			<input type="text" value="${principal.user.username }"class="form-control" placeholder="username 입력" id="username" readonly>
 		</div>
-		<div class="form-group">
-			<label for="password">Password</label> 
-			<input type="password" class="form-control" placeholder="password 입력" id="password">
-		</div>
-		<div class="form-group">
-			<label for="email">Email</label> 
-			<input type="email" value="${principal.user.email }" class="form-control" placeholder="email 입력" id="email">
-		</div>
+		<c:choose>
+			<c:when test="${empty principal.user.oauth}">
+			<div class="form-group">
+				<label for="password">Password</label> 
+				<input type="password" class="form-control" placeholder="password 입력" id="password">
+			</div>
+			<div class="form-group">
+				<label for="email">Email</label> 
+				<input type="email" value="${principal.user.email }" class="form-control" placeholder="email 입력" id="email" >
+			</div>
+			</c:when>
+			<c:otherwise>
+				<div class="form-group">
+					<label for="email">Email</label> 
+					<input type="email" value="${principal.user.email }" class="form-control" placeholder="email 입력" id="email"  readonly>
+				</div>
+			</c:otherwise>
+		</c:choose>
 	</form>
 	<button id="btn-update" class="btn btn-primary">회원수정 완료</button>
 	

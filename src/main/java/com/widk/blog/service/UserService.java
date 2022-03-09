@@ -24,7 +24,6 @@ public class UserService {
 	public void 회원가입(User user) {
 		String rawPassword = user.getPassword(); // 비밀번호 원문
 		String encPassword = encoder.encode(rawPassword); // 해쉬화된 비밀번호
-
 		user.setPassword(encPassword);
 		user.setRole(RoleType.USER); // 입력 데이터,id,createdate 는 알아서 insert 되기 때문에 role만 강제로 user로 insert 해줌.
 		userRepository.save(user);
@@ -39,12 +38,24 @@ public class UserService {
 		User persistance = userRepository.findById(user.getId()).orElseThrow(() -> {
 			return new IllegalArgumentException("회원 찾기 실패");
 		});
-		String rawPassword = user.getPassword();
-		String encPassword = encoder.encode(rawPassword);
-		persistance.setPassword(encPassword);
+		// Validate 체크 => 회원정보 수정시 oauth의 값이 없으면 수정 가능!!
+		if (persistance.getOauth() == null || persistance.getOauth().equals("")) {
+			String rawPassword = user.getPassword();
+			String encPassword = encoder.encode(rawPassword);
+			persistance.setPassword(encPassword);
+			persistance.setEmail(user.getEmail());
+		}
 		persistance.setEmail(user.getEmail());
 		// 회원수정 함수 종료시 = 서비스 종료 = 트랜잭션 종료 = commit이 자동으로 됨.
 		// 영속화된 persistance 객체의 변화가 감지되면 더티체킹이 되어 update문을 자동으로 날려줌.
+	}
+
+	@Transactional(readOnly = true)
+	public User 회원찾기(String username) {
+		User user = userRepository.findByUsername(username).orElseGet(() -> {
+			return new User();
+		});
+		return user;
 	}
 }
 

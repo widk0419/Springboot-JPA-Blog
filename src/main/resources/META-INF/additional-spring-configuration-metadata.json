@@ -1,0 +1,12 @@
+{"properties": [
+  {
+    "name": "spring.widk.key",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.widk.key'"
+  },
+  {
+    "name": "widk.key",
+    "type": "java.lang.String",
+    "description": "A description for 'widk.key'"
+  }
+]}
