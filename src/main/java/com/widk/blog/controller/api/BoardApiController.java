@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.widk.blog.config.auth.PrincipalDetail;
+import com.widk.blog.dto.ReplySaveRequestDto;
 import com.widk.blog.dto.ResponseDto;
 import com.widk.blog.model.Board;
 import com.widk.blog.service.BoardService;
@@ -37,6 +38,14 @@ public class BoardApiController {
 	@PutMapping("/api/board/{id}")
 	public ResponseDto<Integer> update(@PathVariable int id, @RequestBody Board board) {
 		boardService.글수정하기(id, board);
+		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
+	}
+
+	// 데이터 받을 때 컨트롤러에서 dto를 만들어서 받는 게 좋음.
+	// Dto = data transfer object => 데이터를 한번에 받아올수 있음.
+	@PostMapping("/api/board/{id}/reply")
+	public ResponseDto<Integer> replySave(@RequestBody ReplySaveRequestDto replySaveRequestDto) {
+		boardService.댓글쓰기(replySaveRequestDto);
 		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
 	}
 
