@@ -64,9 +64,15 @@ public class BoardService {
 	// 댓글 등록하기
 	@Transactional
 	public void 댓글쓰기(ReplySaveRequestDto replySaveRequestDto) {
-		int result = replyRepository.mSave(replySaveRequestDto.getUserId(), replySaveRequestDto.getBoardId(),
+		replyRepository.mSave(replySaveRequestDto.getUserId(), replySaveRequestDto.getBoardId(),
 				replySaveRequestDto.getContent());
-		System.out.println("BoardService : " + result); // 오브젝트를 출력하면 자동으로 toString()이 호출됨!!
+//		System.out.println("BoardService : " + result); => 오브젝트를 출력하면 자동으로 toString()이 호출됨!!
+	}
+
+	// 댓글 삭제하기
+	@Transactional
+	public void 댓글삭제(int replyId) {
+		replyRepository.deleteById(replyId);
 	}
 
 }
